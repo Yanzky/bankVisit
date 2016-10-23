@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>业务当日访问量</title>
+    <link rel="stylesheet" href="css/initial.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<div class="provincial">
+    <div class="innerProvincial">
+        <div class="top clearfix">
+            <div class="title">当日访问量分布(业务)Top5</div>
+            <div class="about">
+                <div class="time">
+                    <span class="timeBox"></span>
+                    <span>实时统计</span>
+                </div>
+                <div class="highest">
+                    <span class="highestBox"></span>
+                    <span>历史最高</span>
+                </div>
+            </div>
+        </div>
+        <div class="line">
+            <ul class="clearfix">
+                <li data-role="0"></li>
+                <li data-role="25"></li>
+                <li data-role="50"></li>
+                <li data-role="75"></li>
+                <li data-role="100"></li>
+                <li data-role="125"><span>千次</span></li>
+            </ul>
+        </div>
+        <div class="barCode">
+            <div class="shouji item">
+                <div class="sj item1">手机银行</div>
+                <div class="progressbar" data-perc="">
+                    <div class="bar"></div>
+                    <div class="label"><span></span></div>
+                </div>
+                <div class="num" data-num="136.2">136.2</div>
+            </div>
+            <div class="dazhong item">
+                <div class="dz item1">大众版</div>
+                <div class="progressbar" data-perc="" style="width: 134.4px">
+                    <div class="bar"></div>
+                    <div class="label"><span></span></div>
+                </div>
+                <div class="num" data-num="136.2">67.2</div>
+            </div>
+            <div class="zhuangye item">
+                <div class="zy item1">专业版</div>
+                <div class="progressbar" data-perc="" style="width: 63px">
+                    <div class="bar"></div>
+                    <div class="label"><span></span></div>
+                </div>
+                <div class="num" data-num="31.5">31.5</div>
+            </div>
+            <div class="qiye item">
+                <div class="qy item1">企业银行</div>
+                <div class="progressbar" data-perc="" style="width: 66.2px">
+                    <div class="bar"></div>
+                    <div class="label"><span></span></div>
+                </div>
+                <div class="num" data-num="32.1">32.1</div>
+            </div>
+            <div class="yiwangtong item">
+                <div class="yw item1">一网通主战</div>
+                <div class="progressbar" data-perc="" style="width: 40.4px">
+                    <div class="bar"></div>
+                    <div class="label"><span></span></div>
+                </div>
+                <div class="num" data-num="20.2">20.2</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    $(function() {
+
+        var obj  = {
+            "广东":{"progressbar":"32","num":"136.2"},
+            "北京":{"progressbar":"23","num":"67.2"},
+            "福建":{"progressbar":"32","num":"31.5"},
+            "浙江":{"progressbar":"13","num":"68.1"},
+            "陕西":{"progressbar":"100","num":"80.2"},
+        }
+
+        function bankFunction(obj){
+            var arrProgressbar = [];
+            var arrNum = [];
+
+            for(var i in obj){
+                arrProgressbar.push(obj[i].progressbar);
+                arrNum.push(obj[i].num)
+            }
+
+
+            $('.num').each(function(i){
+                $(this).attr('data-num',arrNum[i]);
+                $(this).text(arrNum[i]);
+            })
+
+            $('.progressbar').each(function(i,element){
+
+                $(element).css('width',arrNum[i]*2);
+                $(this).attr('data-perc',arrProgressbar[i]);
+
+                var t = $(this),
+                        dataperc = t.attr('data-perc'),
+                        barWith = t.css('width'),
+                        barperc = Math.round(dataperc*(parseInt(barWith)/100));
+
+                t.find('.bar').animate({width:barperc}, dataperc*25);
+                t.find('.label').append('<div class="perc"></div>');
+
+                function perc(){
+                    var length = t.find('.bar').css('width'),
+                            perc = Math.round(parseInt(length)/(parseInt(barWith)/100)),
+                            labelpos = (parseInt(length));
+                    t.find('.label').css('left', labelpos);
+                    t.find('.perc').text(perc+'%');
+                }
+                perc();
+                setInterval(perc, 0);
+            });
+        }
+
+        bankFunction(obj);
+        window.bankFunction = bankFunction;
+
+    });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
